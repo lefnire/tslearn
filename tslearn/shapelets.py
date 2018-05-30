@@ -3,7 +3,10 @@ The :mod:`tslearn.shapelets` module gathers Shapelet-based algorithms.
 
 It depends on the `keras` library for optimization.
 """
+from __future__ import division
 
+from builtins import range
+from past.utils import old_div
 from keras.models import Model
 from keras.layers import Dense, Conv1D, Layer, Input, concatenate, add
 from keras.metrics import categorical_accuracy, categorical_crossentropy, binary_accuracy, binary_crossentropy
@@ -117,7 +120,7 @@ class LocalSquaredDistanceLayer(Layer):
         x_sq = K.expand_dims(K.sum(x ** 2, axis=2), axis=-1)
         y_sq = K.reshape(K.sum(self.kernel ** 2, axis=1), (1, 1, self.n_shapelets))
         xy = K.dot(x, K.transpose(self.kernel))
-        return (x_sq + y_sq - 2 * xy) / K.int_shape(self.kernel)[1]
+        return old_div((x_sq + y_sq - 2 * xy), K.int_shape(self.kernel)[1])
 
     def compute_output_shape(self, input_shape):
         return input_shape[0], input_shape[1], self.n_shapelets

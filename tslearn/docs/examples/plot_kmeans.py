@@ -7,10 +7,12 @@ This example uses :math:`k`-means clustering for time series. Three variants of 
 Euclidean :math:`k`-means, DBA-:math:`k`-means (for DTW Barycenter Averaging) and Soft-DTW :math:`k`-means.
 
 """
+from __future__ import print_function
 
 # Author: Romain Tavenard
 # License: BSD 3 clause
 
+from builtins import range
 import numpy
 import matplotlib.pyplot as plt
 

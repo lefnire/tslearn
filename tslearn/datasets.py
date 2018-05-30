@@ -1,7 +1,11 @@
 """
 The :mod:`tslearn.datasets` module provides simplified access to standard time series datasets.
 """
+from __future__ import print_function
 
+from future import standard_library
+standard_library.install_aliases()
+from builtins import object
 import numpy
 import zipfile
 import tempfile
@@ -10,7 +14,7 @@ import os
 import sys
 import csv
 try:
-    from urllib import urlretrieve
+    from urllib.request import urlretrieve
 except ImportError:
     from urllib.request import urlretrieve
 try:
@@ -149,7 +153,7 @@ class UCR_UEA_datasets(object):
             dataset_name = perfs_dict[""]
             if list_datasets is None or dataset_name in list_datasets:
                 d_out[dataset_name] = {}
-                for m in perfs_dict.keys():
+                for m in list(perfs_dict.keys()):
                     if m != "" and (list_methods is None or m in list_methods):
                         try:
                             d_out[dataset_name][m] = float(perfs_dict[m])

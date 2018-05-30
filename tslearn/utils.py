@@ -2,6 +2,7 @@
 The :mod:`tslearn.utils` module includes various utilities.
 """
 
+from builtins import range
 import numpy
 
 __author__ = 'Romain Tavenard romain.tavenard[at]univ-rennes2.fr'

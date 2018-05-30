@@ -1,7 +1,10 @@
 """
 The :mod:`tslearn.piecewise` module gathers time series piecewise approximation algorithms.
 """
+from __future__ import division
 
+from builtins import range
+from past.utils import old_div
 import numpy
 from scipy.stats import norm
 from sklearn.base import TransformerMixin
@@ -38,7 +41,7 @@ def _breakpoints(n_bins, scale=1.):
     >>> _breakpoints(n_bins=2)
     array([ 0.])
     """
-    return norm.ppf([float(a) / n_bins for a in range(1, n_bins)], scale=scale)
+    return norm.ppf([old_div(float(a), n_bins) for a in range(1, n_bins)], scale=scale)
 
 
 def _bin_medians(n_bins, scale=1.):
@@ -49,7 +52,7 @@ def _bin_medians(n_bins, scale=1.):
     >>> _bin_medians(n_bins=2)
     array([-0.67448975,  0.67448975])
     """
-    return norm.ppf([float(a) / (2 * n_bins) for a in range(1, 2 * n_bins, 2)], scale=scale)
+    return norm.ppf([old_div(float(a), (2 * n_bins)) for a in range(1, 2 * n_bins, 2)], scale=scale)
 
 
 class PiecewiseAggregateApproximation(TransformerMixin):
@@ -200,7 +203,7 @@ class PiecewiseAggregateApproximation(TransformerMixin):
         if self.size_fitted_ < 0:
             raise ValueError("Model not fitted yet: cannot be used for distance computation.")
         else:
-            return numpy.linalg.norm(paa1 - paa2) * numpy.sqrt(self.size_fitted_ / self.n_segments)
+            return numpy.linalg.norm(paa1 - paa2) * numpy.sqrt(old_div(self.size_fitted_, self.n_segments))
 
     def distance(self, ts1, ts2):
         """Compute distance between PAA representations as defined in [1]_.
@@ -517,7 +520,7 @@ class OneD_SymbolicAggregateApproximation(SymbolicAggregateApproximation):
     def _fit(self, X, y=None):
         SymbolicAggregateApproximation._fit(self, X, y)
         if self.sigma_l is None:
-            self.sigma_l = numpy.sqrt(0.03 / self.size_fitted_)
+            self.sigma_l = numpy.sqrt(old_div(0.03, self.size_fitted_))
 
         self.breakpoints_slope_ = _breakpoints(self.alphabet_size_slope, scale=self.sigma_l)
         self.breakpoints_slope_middle_ = _bin_medians(self.alphabet_size_slope, scale=self.sigma_l)

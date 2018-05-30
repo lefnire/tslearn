@@ -2,6 +2,7 @@
 The :mod:`tslearn.metrics` module gathers time series similarity metrics.
 """
 
+from builtins import object
 import numpy
 from scipy.spatial.distance import pdist
 from sklearn.utils import check_random_state

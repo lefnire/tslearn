@@ -3,6 +3,10 @@ The :mod:`tslearn.clustering` module gathers time series specific clustering alg
 """
 
 from __future__ import print_function
+from __future__ import division
+from builtins import range
+from builtins import object
+from past.utils import old_div
 from sklearn.base import BaseEstimator, ClusterMixin
 from sklearn.cluster.k_means_ import _k_init
 from sklearn.metrics.cluster import silhouette_score as sklearn_silhouette_score
@@ -63,9 +67,9 @@ def _compute_inertia(distances, assignments, squared=True):
     """
     n_ts = distances.shape[0]
     if squared:
-        return numpy.sum(distances[numpy.arange(n_ts), assignments] ** 2) / n_ts
+        return old_div(numpy.sum(distances[numpy.arange(n_ts), assignments] ** 2), n_ts)
     else:
-        return numpy.sum(distances[numpy.arange(n_ts), assignments]) / n_ts
+        return old_div(numpy.sum(distances[numpy.arange(n_ts), assignments]), n_ts)
 
 
 def silhouette_score(X, labels, metric=None, sample_size=None, metric_params=None,
@@ -348,7 +352,7 @@ class GlobalAlignmentKernelKMeans(BaseEstimator, ClusterMixin):
         return dist.argmin(axis=1)
 
 
-class TimeSeriesCentroidBasedClusteringMixin:
+class TimeSeriesCentroidBasedClusteringMixin(object):
     """Mixin class for centroid-based clustering of time series."""
     def _post_fit(self, X_fitted, centroids, inertia):
         if numpy.isfinite(inertia) and (centroids is not None):
@@ -676,7 +680,7 @@ class KShape(BaseEstimator, ClusterMixin, TimeSeriesCentroidBasedClusteringMixin
         Xp = y_shifted_sbd_vec(self.cluster_centers_[k], X[self.labels_ == k], norm_ref=-1,
                                norms_dataset=self._norms[self.labels_ == k])
         S = numpy.dot(Xp[:, :, 0].T, Xp[:, :, 0])
-        Q = numpy.eye(sz) - numpy.ones((sz, sz)) / sz
+        Q = numpy.eye(sz) - old_div(numpy.ones((sz, sz)), sz)
         M = numpy.dot(Q.T, numpy.dot(S, Q))
         _, vec = numpy.linalg.eigh(M)
         mu_k = vec[:, -1].reshape((sz, 1))

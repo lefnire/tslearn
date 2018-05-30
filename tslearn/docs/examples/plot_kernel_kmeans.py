@@ -11,6 +11,7 @@ clustering.
 # Author: Romain Tavenard
 # License: BSD 3 clause
 
+from builtins import range
 import numpy
 import matplotlib.pyplot as plt
 

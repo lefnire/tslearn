@@ -7,6 +7,7 @@ This example illustrates the use of the "Learning Shapelets" method for a time s
 
 More information on the method can be found at: http://fs.ismll.de/publicspace/LearningShapelets/.
 """
+from __future__ import print_function
 
 # Author: Romain Tavenard
 # License: BSD 3 clause
@@ -41,7 +42,7 @@ shp_clf = ShapeletModel(n_shapelets_per_size=shapelet_sizes,
                         verbose_level=0)
 shp_clf.fit(X_train, y_train)
 predicted_labels = shp_clf.predict(X_test)
-print("Correct classification rate:", accuracy_score(y_test, predicted_labels))
+print(("Correct classification rate:", accuracy_score(y_test, predicted_labels)))
 
 plt.figure()
 for i, sz in enumerate(shapelet_sizes.keys()):

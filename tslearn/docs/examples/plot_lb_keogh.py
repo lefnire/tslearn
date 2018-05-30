@@ -6,6 +6,7 @@ LB_Keogh
 This example illustrates the principle of time series envelope as used in LB_Keogh and estimates similarity between
 time series using LB_Keogh.
 """
+from __future__ import print_function
 
 # Author: Romain Tavenard
 # License: BSD 3 clause
@@ -33,5 +34,5 @@ plt.plot(numpy.arange(sz), dataset_scaled[1, :, 0], "k-")
 
 plt.show()
 
-print("LB_Keogh similarity: ", metrics.lb_keogh(dataset_scaled[1],
-                                                envelope_candidate=(envelope_down, envelope_up)))
+print(("LB_Keogh similarity: ", metrics.lb_keogh(dataset_scaled[1],
+                                                envelope_candidate=(envelope_down, envelope_up))))

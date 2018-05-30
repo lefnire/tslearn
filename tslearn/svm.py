@@ -2,7 +2,10 @@
 The :mod:`tslearn.svm` module contains Support Vector Classifier (SVC) and Support Vector Regressor (SVR) models
 for time series.
 """
+from __future__ import division
 
+from builtins import range
+from past.utils import old_div
 from sklearn.svm import SVC as BaseSVC, SVR as BaseSVR
 import numpy
 
@@ -30,7 +33,7 @@ def _prepare_ts_datasets_sklearn(X):
 def _kernel_func_gak(sz, d, gamma):
     if gamma == "auto":
         gamma = 1.
-    return lambda x, y: cdist_gak(x.reshape((-1, sz, d)), y.reshape((-1, sz, d)), sigma=numpy.sqrt(gamma / 2.))
+    return lambda x, y: cdist_gak(x.reshape((-1, sz, d)), y.reshape((-1, sz, d)), sigma=numpy.sqrt(old_div(gamma, 2.)))
 
 
 class TimeSeriesSVC(BaseSVC):

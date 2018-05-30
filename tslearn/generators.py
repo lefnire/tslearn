@@ -2,6 +2,7 @@
 The :mod:`tslearn.generators` module gathers synthetic time series dataset generation routines.
 """
 
+from builtins import range
 import numpy
 from sklearn.utils import check_random_state
 
@@ -94,5 +95,5 @@ def random_walk_blobs(n_ts_per_blob=100, sz=256, d=1, n_blobs=2, noise_level=1.,
     base_ts = random_walks(n_ts=n_blobs, sz=sz, d=d, std=1.0, random_state=rs)
     rnd = rs.randn(n_ts_per_blob * n_blobs, sz, d) * noise_level
     ts = numpy.repeat(base_ts, repeats=n_ts_per_blob, axis=0)
-    y = numpy.repeat(range(n_blobs), repeats=n_ts_per_blob)
+    y = numpy.repeat(list(range(n_blobs)), repeats=n_ts_per_blob)
     return ts + rnd, y

@@ -2,6 +2,7 @@
 The :mod:`tslearn.preprocessing` module gathers time series scalers.
 """
 
+from builtins import range
 import numpy
 from sklearn.base import TransformerMixin
 from scipy.interpolate import interp1d

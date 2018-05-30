@@ -1,9 +1,15 @@
 """
 The :mod:`tslearn.barycenters` module gathers algorithms for time series barycenter computation.
 """
+from __future__ import division
+from __future__ import print_function
 
 # Code for soft DTW is by Mathieu Blondel under Simplified BSD license
 
+from builtins import zip
+from builtins import range
+from past.utils import old_div
+from builtins import object
 import numpy
 from scipy.interpolate import interp1d
 from scipy.optimize import minimize
@@ -24,7 +30,7 @@ def _set_weights(w, n):
     return w
 
 
-class EuclideanBarycenter:
+class EuclideanBarycenter(object):
     """Standard Euclidean barycenter computed from a set of time series.
 
     Parameters
@@ -219,7 +225,7 @@ class DTWBarycenterAveraging(EuclideanBarycenter):
         for t_barycenter in range(self.barycenter_size):
             for i_ts, t_ts in zip(assign[0][t_barycenter], assign[1][t_barycenter]):
                 cost += self.weights[i_ts] * numpy.linalg.norm(X[i_ts, t_ts] - barycenter[t_barycenter]) ** 2
-        return cost / self.weights.sum()
+        return old_div(cost, self.weights.sum())
 
 
 def _init_avg(X, barycenter_size):
@@ -257,7 +263,7 @@ def _petitjean_cost(X, barycenter, assign, weights):
     for t_barycenter in range(barycenter_size):
         for i_ts, t_ts in zip(assign[0][t_barycenter], assign[1][t_barycenter]):
             cost += weights[i_ts] * numpy.linalg.norm(X[i_ts, t_ts] - barycenter[t_barycenter]) ** 2
-    return cost / weights.sum()
+    return old_div(cost, weights.sum())
 
 
 def dtw_barycenter_averaging(X, barycenter_size=None, init_barycenter=None, max_iter=30, tol=1e-5, weights=None,

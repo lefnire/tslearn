@@ -9,6 +9,7 @@ This example uses the KShape clustering method that is based on cross-correlatio
 # Author: Romain Tavenard
 # License: BSD 3 clause
 
+from builtins import range
 import numpy
 import matplotlib.pyplot as plt
 
